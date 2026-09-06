@@ -1,0 +1,4 @@
+interface:
+  display_name: "Visual Commands"
+  short_description: "Edit images with compact slash commands"
+  default_prompt: "Use $visual-commands to interpret the user's visual slash commands, compose compatible commands, resolve conflicts deterministically, preserve the source image by default, and execute the image generation or edit."

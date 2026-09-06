@@ -1,0 +1,3718 @@
+{
+  "schema_version": "1.0",
+  "skill": "visual-commands",
+  "composition_rules": {
+    "default": "Combine non-conflicting commands into one unified image operation.",
+    "ordering": [
+      "fidelity",
+      "transform",
+      "camera",
+      "action",
+      "material",
+      "environment",
+      "background",
+      "lighting",
+      "look",
+      "optics",
+      "composition",
+      "output"
+    ],
+    "same_category_conflict": "Last explicit command wins unless the earlier command is a master/multi-view command and the later command is a modifier.",
+    "master_rule": "A command with mode=master controls the output structure; all compatible commands become modifiers of that master operation.",
+    "multiple_masters": "If multiple master commands are present, combine only when logically nestable; otherwise the last master wins. Example: /360view /contactsheet is nestable; /explodedview /beforeafter is nestable; /360view /explodedview defaults to exploded view rendered at multiple angles only if the user clearly wants both, otherwise last master wins.",
+    "unknown_commands": "Do not silently invent a meaning. If the token is clearly a natural modifier, treat it as free-text; otherwise state that the command is unknown and suggest the closest known command.",
+    "parameter_binding": "Text immediately following a parameterized slash command belongs to that command until the next slash command."
+  },
+  "commands": [
+    {
+      "name": "xray",
+      "category": "transform",
+      "description": "Make the outer shell transparent and reveal plausible internal structure.",
+      "prompt": "Render the subject as a photorealistic X-ray/transparent-shell visualization. Preserve identity, silhouette, camera angle and scene unless another command changes them. Reveal plausible internal components with coherent depth, occlusion and materials.",
+      "aliases": [
+        "transparent-shell",
+        "see-through"
+      ],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "explodedview",
+      "category": "transform",
+      "description": "Separate the subject into an exploded technical assembly.",
+      "prompt": "Create a clean exploded-view assembly of the same subject. Separate major components along logical axes, preserve relative order and orientation, and keep every part visually traceable to the original.",
+      "aliases": [
+        "exploded",
+        "explode"
+      ],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "cutaway",
+      "category": "transform",
+      "description": "Remove a controlled section of the outer shell to show inside.",
+      "prompt": "Create a professional cutaway view: remove only the minimum outer section needed to reveal key internal components while preserving the rest of the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "crosssection",
+      "category": "transform",
+      "description": "Create a section cut through the subject.",
+      "prompt": "Create a precise cross-sectional visualization through the subject, with physically coherent internal layers and components.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "anatomy",
+      "category": "transform",
+      "description": "Reveal layered internal anatomy or construction.",
+      "prompt": "Reveal the subject's internal layers in a clear educational anatomy-style visualization, appropriate to the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "layers",
+      "category": "transform",
+      "description": "Separate the subject into functional layers.",
+      "prompt": "Decompose the subject visually into functional layers while preserving their spatial relationship.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wireframe",
+      "category": "transform",
+      "description": "Show a 3D wireframe representation.",
+      "prompt": "Render the subject as a clean 3D wireframe while preserving proportions and camera angle.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "blueprint",
+      "category": "transform",
+      "description": "Convert the subject into a technical blueprint presentation.",
+      "prompt": "Create a precise technical blueprint-style presentation of the subject with orthographic clarity, fine construction lines and engineering-like visual discipline.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "schematic",
+      "category": "transform",
+      "description": "Create a clean schematic visualization.",
+      "prompt": "Convert the subject into a clean schematic visualization emphasizing functional relationships and structure.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "technical",
+      "category": "look",
+      "description": "Use a technical/engineering presentation style.",
+      "prompt": "Use a precise engineering visualization aesthetic with clean edges, legible component separation and minimal decorative styling.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "beforeafter",
+      "category": "layout",
+      "description": "Show original-like state and transformed state side by side.",
+      "prompt": "Create a clear before/after comparison using matched framing and scale.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "contactsheet",
+      "category": "layout",
+      "description": "Show multiple requested views in a clean contact sheet.",
+      "prompt": "Arrange the requested variants or views into a clean, evenly spaced contact sheet.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "360view",
+      "category": "camera",
+      "description": "Generate a consistent multi-angle 360-degree product turnaround.",
+      "prompt": "Create a consistent 360-degree turnaround of the same subject using multiple evenly spaced azimuth angles. Preserve identity, materials, proportions and scale across every view. Prefer 8 views unless the user specifies otherwise.",
+      "aliases": [
+        "360",
+        "turntable"
+      ],
+      "mode": "master",
+      "conflicts": [],
+      "args": "[4|6|8|12]",
+      "notes": ""
+    },
+    {
+      "name": "turnaround",
+      "category": "camera",
+      "description": "Generate front, 3/4, side and rear views.",
+      "prompt": "Create a consistent turnaround sheet of the same subject: front, front three-quarter, side, rear three-quarter and rear.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "orthographic",
+      "category": "camera",
+      "description": "Generate orthographic technical views.",
+      "prompt": "Create orthographic front, side, rear and top views with matched scale and minimal perspective.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "frontview",
+      "category": "camera",
+      "description": "View directly from the front.",
+      "prompt": "Use a direct front-facing camera view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rearview",
+      "category": "camera",
+      "description": "View directly from the rear.",
+      "prompt": "Use a direct rear-facing camera view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sideview",
+      "category": "camera",
+      "description": "View from the side.",
+      "prompt": "Use a clean side profile camera view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "leftview",
+      "category": "camera",
+      "description": "View from the left side.",
+      "prompt": "Use a direct left-side profile view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rightview",
+      "category": "camera",
+      "description": "View from the right side.",
+      "prompt": "Use a direct right-side profile view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "topview",
+      "category": "camera",
+      "description": "View directly from above.",
+      "prompt": "Use a direct overhead top-down view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "bottomview",
+      "category": "camera",
+      "description": "View directly from below.",
+      "prompt": "Use a direct bottom-up view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "threequarter",
+      "category": "camera",
+      "description": "Use a premium 3/4 product angle.",
+      "prompt": "Use a flattering three-quarter camera angle that clearly shows depth and form.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "isometric",
+      "category": "camera",
+      "description": "Use an isometric view.",
+      "prompt": "Use a clean isometric camera with minimized perspective distortion.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "lowangle",
+      "category": "camera",
+      "description": "Use a low camera angle.",
+      "prompt": "Place the camera below the subject's midline for a powerful low-angle view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "highangle",
+      "category": "camera",
+      "description": "Use a high camera angle.",
+      "prompt": "Place the camera above the subject for a controlled high-angle view.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "eyelevel",
+      "category": "camera",
+      "description": "Use an eye-level camera.",
+      "prompt": "Use a neutral eye-level camera.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "macro",
+      "category": "camera",
+      "description": "Extreme macro detail.",
+      "prompt": "Create an extreme macro close-up emphasizing micro-details and material texture.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "closeup",
+      "category": "camera",
+      "description": "Close-up framing.",
+      "prompt": "Use a close-up crop that emphasizes the primary subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wide",
+      "category": "camera",
+      "description": "Wider environmental framing.",
+      "prompt": "Use a wider framing that shows more of the surrounding environment.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "zoomout",
+      "category": "camera",
+      "description": "Expand framing and infer surrounding scene.",
+      "prompt": "Expand the framing beyond the original borders, plausibly continuing the scene.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "telephoto",
+      "category": "camera",
+      "description": "Compressed telephoto look.",
+      "prompt": "Use a telephoto perspective with restrained distortion and compressed depth.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wideangle",
+      "category": "camera",
+      "description": "Wide-angle perspective.",
+      "prompt": "Use a wide-angle lens feel while keeping subject geometry believable.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "fisheye",
+      "category": "camera",
+      "description": "Fisheye lens effect.",
+      "prompt": "Use a deliberate fisheye lens look with strong barrel distortion.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "tiltshift",
+      "category": "camera",
+      "description": "Tilt-shift look.",
+      "prompt": "Use a tilt-shift photographic look with controlled selective focus.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "camera_single"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "day",
+      "category": "environment",
+      "description": "Convert scene to daytime.",
+      "prompt": "Set the scene in natural daytime lighting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "night",
+        "sunset",
+        "sunrise",
+        "goldenhour",
+        "bluehour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "night",
+      "category": "environment",
+      "description": "Convert scene to night.",
+      "prompt": "Set the scene at night with physically plausible artificial and ambient lighting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "day",
+        "sunset",
+        "sunrise",
+        "goldenhour",
+        "bluehour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sunrise",
+      "category": "environment",
+      "description": "Set scene at sunrise.",
+      "prompt": "Use early sunrise light with low sun angle and subtle atmospheric warmth.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "day",
+        "night",
+        "sunset",
+        "goldenhour",
+        "bluehour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sunset",
+      "category": "environment",
+      "description": "Set scene at sunset.",
+      "prompt": "Use late sunset light with low sun angle and realistic warm/cool balance.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "day",
+        "night",
+        "sunrise",
+        "goldenhour",
+        "bluehour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "goldenhour",
+      "category": "environment",
+      "description": "Use golden-hour lighting.",
+      "prompt": "Use natural golden-hour lighting with warm directional sunlight and realistic long shadows.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "day",
+        "night",
+        "sunrise",
+        "sunset",
+        "bluehour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "bluehour",
+      "category": "environment",
+      "description": "Use blue-hour ambience.",
+      "prompt": "Use blue-hour ambient light with cool sky illumination and emerging practical lights.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "day",
+        "night",
+        "sunrise",
+        "sunset",
+        "goldenhour"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rain",
+      "category": "environment",
+      "description": "Add realistic rain.",
+      "prompt": "Add realistic rainfall, wet surfaces, droplets and reflections appropriate to the scene.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "snow",
+      "category": "environment",
+      "description": "Add snow.",
+      "prompt": "Add physically plausible snow, accumulation and cold atmospheric cues.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "fog",
+      "category": "environment",
+      "description": "Add atmospheric fog.",
+      "prompt": "Add realistic volumetric fog with depth-dependent visibility.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "mist",
+      "category": "environment",
+      "description": "Add light mist.",
+      "prompt": "Add subtle mist that preserves subject readability.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "storm",
+      "category": "environment",
+      "description": "Create stormy weather.",
+      "prompt": "Create a dramatic but plausible storm environment with heavy clouds and weather cues.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "clear",
+      "category": "environment",
+      "description": "Clear weather.",
+      "prompt": "Use clean, clear atmospheric conditions.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "fog",
+        "mist",
+        "storm"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "indoors",
+      "category": "environment",
+      "description": "Move presentation to a plausible indoor setting.",
+      "prompt": "Place the subject in a coherent indoor environment while preserving the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "outdoors"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "outdoors",
+      "category": "environment",
+      "description": "Move presentation outdoors.",
+      "prompt": "Place the subject in a coherent outdoor environment while preserving the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "indoors"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "studio",
+      "category": "environment",
+      "description": "Place in professional studio.",
+      "prompt": "Place the subject in a professional controlled photo studio.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "removebg",
+      "category": "background",
+      "description": "Remove background.",
+      "prompt": "Isolate the subject and remove the background cleanly.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "whitebg",
+        "blackbg",
+        "graybg",
+        "gradientbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "transparentbg",
+      "category": "background",
+      "description": "Output with transparent background when supported.",
+      "prompt": "Isolate the subject on a truly transparent background with clean edges.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "whitebg",
+        "blackbg",
+        "graybg",
+        "gradientbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "whitebg",
+      "category": "background",
+      "description": "Use seamless white background.",
+      "prompt": "Place the subject on a seamless clean white background.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "blackbg",
+        "graybg",
+        "gradientbg",
+        "removebg",
+        "transparentbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "blackbg",
+      "category": "background",
+      "description": "Use seamless black background.",
+      "prompt": "Place the subject on a seamless deep black background.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "whitebg",
+        "graybg",
+        "gradientbg",
+        "removebg",
+        "transparentbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "graybg",
+      "category": "background",
+      "description": "Use neutral gray background.",
+      "prompt": "Place the subject on a seamless neutral gray background.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "whitebg",
+        "blackbg",
+        "gradientbg",
+        "removebg",
+        "transparentbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "gradientbg",
+      "category": "background",
+      "description": "Use subtle studio gradient background.",
+      "prompt": "Place the subject on a tasteful, subtle studio gradient background.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "whitebg",
+        "blackbg",
+        "graybg",
+        "removebg",
+        "transparentbg"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "changebg",
+      "category": "background",
+      "description": "Replace the background with a specified scene.",
+      "prompt": "Replace only the background with the user's specified setting while preserving the foreground subject, pose, proportions and edges.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "background_replace"
+      ],
+      "args": "<description>",
+      "notes": ""
+    },
+    {
+      "name": "cinematic",
+      "category": "look",
+      "description": "Cinematic lighting and grading.",
+      "prompt": "Use premium cinematic lighting, tonal separation, realistic contrast, motivated practicals and filmic depth without making the image look artificial.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "photoreal",
+      "category": "look",
+      "description": "Push toward convincing photography.",
+      "prompt": "Render as highly convincing photography with natural materials, optics, lighting and imperfections.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "productshot",
+      "category": "look",
+      "description": "Premium commercial product photography.",
+      "prompt": "Present the subject as high-end commercial product photography with disciplined composition, controlled reflections and clean lighting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "catalog",
+      "category": "look",
+      "description": "Clean catalog photography.",
+      "prompt": "Use neutral, accurate catalog-style product photography.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "adshot",
+      "category": "look",
+      "description": "Premium advertising hero image.",
+      "prompt": "Create a premium advertising hero shot with strong focal hierarchy while preserving product truth.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "luxury",
+      "category": "look",
+      "description": "Luxury editorial look.",
+      "prompt": "Use a restrained luxury editorial aesthetic with premium materials, elegant lighting and uncluttered composition.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "minimal",
+      "category": "look",
+      "description": "Minimal visual presentation.",
+      "prompt": "Simplify the scene and remove unnecessary visual clutter while preserving the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "dramatic",
+      "category": "look",
+      "description": "Dramatic visual treatment.",
+      "prompt": "Use strong but believable contrast, directional light and depth for a dramatic presentation.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "editorial",
+      "category": "look",
+      "description": "Editorial photography.",
+      "prompt": "Use sophisticated editorial photography with intentional framing and natural texture.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "documentary",
+      "category": "look",
+      "description": "Documentary realism.",
+      "prompt": "Use observational documentary realism with natural light and restrained processing.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "vintage",
+      "category": "look",
+      "description": "Vintage photographic treatment.",
+      "prompt": "Use a tasteful vintage photographic treatment with period-appropriate tonality and texture.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "retro",
+      "category": "look",
+      "description": "Retro design treatment.",
+      "prompt": "Apply a coherent retro visual language appropriate to the subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "futuristic",
+      "category": "look",
+      "description": "Futuristic design treatment.",
+      "prompt": "Use a refined futuristic aesthetic without unnecessary sci-fi clutter.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "cyberpunk",
+      "category": "look",
+      "description": "Cyberpunk visual treatment.",
+      "prompt": "Use neon-lit cyberpunk atmosphere, dense urban lighting and wet reflective surfaces where appropriate.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "noir",
+      "category": "look",
+      "description": "Film-noir treatment.",
+      "prompt": "Use monochrome or near-monochrome noir lighting, hard shadows and cinematic contrast.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "cleanroom",
+      "category": "look",
+      "description": "Clinical clean-room aesthetic.",
+      "prompt": "Use a sterile, precise clean-room visual environment and lighting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "museum",
+      "category": "look",
+      "description": "Museum-display aesthetic.",
+      "prompt": "Present the subject as a carefully lit museum exhibit.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "conceptart",
+      "category": "look",
+      "description": "Concept-art treatment.",
+      "prompt": "Render as polished concept art while preserving the subject's defining features.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sketch",
+      "category": "look",
+      "description": "Hand-drawn sketch.",
+      "prompt": "Convert the subject into a confident hand-drawn design sketch.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "pencil",
+      "category": "look",
+      "description": "Pencil drawing.",
+      "prompt": "Render as a detailed pencil drawing with controlled shading.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ink",
+      "category": "look",
+      "description": "Ink illustration.",
+      "prompt": "Render as precise ink linework with deliberate hatching.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "watercolor",
+      "category": "look",
+      "description": "Watercolor painting.",
+      "prompt": "Render as a refined watercolor painting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "oilpainting",
+      "category": "look",
+      "description": "Oil painting.",
+      "prompt": "Render as a detailed oil painting with natural brushwork.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "comic",
+      "category": "look",
+      "description": "Comic-book treatment.",
+      "prompt": "Render as polished comic-book art with strong linework and controlled shading.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "anime",
+      "category": "look",
+      "description": "Anime-inspired treatment.",
+      "prompt": "Render in a polished anime-inspired visual style.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "pixelart",
+      "category": "look",
+      "description": "Pixel-art treatment.",
+      "prompt": "Render as deliberate pixel art with clean clusters and readable silhouette.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "lowpoly",
+      "category": "look",
+      "description": "Low-poly 3D treatment.",
+      "prompt": "Render as a coherent low-poly 3D model with simplified geometry.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "clay",
+      "category": "look",
+      "description": "Clay render.",
+      "prompt": "Render as a neutral clay model emphasizing shape and surface form.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "3drender",
+      "category": "look",
+      "description": "Polished 3D render.",
+      "prompt": "Render as a high-end physically based 3D visualization.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "holographic",
+      "category": "look",
+      "description": "Holographic visualization.",
+      "prompt": "Apply a coherent holographic visualization treatment while keeping the subject readable.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "studiolight",
+      "category": "lighting",
+      "description": "Professional studio lighting.",
+      "prompt": "Use professional softbox-style studio lighting with controlled highlights and shadows.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "softlight",
+      "category": "lighting",
+      "description": "Soft diffuse lighting.",
+      "prompt": "Use broad soft diffuse light and gentle shadow transitions.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "hardlight",
+      "category": "lighting",
+      "description": "Hard directional light.",
+      "prompt": "Use crisp hard directional lighting and defined shadows.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rimlight",
+      "category": "lighting",
+      "description": "Add rim lighting.",
+      "prompt": "Add controlled rim light that separates the subject from the background.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "backlight",
+      "category": "lighting",
+      "description": "Backlight the subject.",
+      "prompt": "Use motivated backlighting with realistic edge illumination.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "neonlight",
+      "category": "lighting",
+      "description": "Neon lighting.",
+      "prompt": "Use realistic colored neon illumination and reflections.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "volumetric",
+      "category": "lighting",
+      "description": "Volumetric light.",
+      "prompt": "Add physically plausible volumetric light beams where the atmosphere supports them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "relight",
+      "category": "lighting",
+      "description": "Rebuild lighting while preserving content.",
+      "prompt": "Relight the existing scene coherently while preserving subject geometry and composition.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "chrome",
+      "category": "material",
+      "description": "Chrome material.",
+      "prompt": "Change the relevant exterior material to polished chrome with realistic reflections.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "glass",
+      "category": "material",
+      "description": "Glass material.",
+      "prompt": "Convert the specified or primary shell material to realistic glass while preserving structure.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "carbonfiber",
+      "category": "material",
+      "description": "Carbon-fiber material.",
+      "prompt": "Apply realistic woven carbon-fiber material to the relevant surfaces.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "gold",
+      "category": "material",
+      "description": "Gold material.",
+      "prompt": "Apply realistic metallic gold to the relevant surfaces.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "silver",
+      "category": "material",
+      "description": "Silver material.",
+      "prompt": "Apply realistic silver metal to the relevant surfaces.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "matte",
+      "category": "material",
+      "description": "Matte finish.",
+      "prompt": "Use a refined matte surface finish with restrained reflections.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "glossy",
+      "category": "material",
+      "description": "Glossy finish.",
+      "prompt": "Use a high-quality glossy finish with physically plausible reflections.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ceramic",
+      "category": "material",
+      "description": "Ceramic material.",
+      "prompt": "Apply realistic premium ceramic material.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wood",
+      "category": "material",
+      "description": "Wood material.",
+      "prompt": "Apply realistic wood material with coherent grain direction and scale.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "marble",
+      "category": "material",
+      "description": "Marble material.",
+      "prompt": "Apply realistic marble with natural veining and polished stone response.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "leather",
+      "category": "material",
+      "description": "Leather material.",
+      "prompt": "Apply realistic leather with fine grain, stitching logic and natural highlights.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "metal",
+      "category": "material",
+      "description": "Metal material.",
+      "prompt": "Convert the relevant surfaces to believable machined or formed metal.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "materialswap",
+      "category": "material",
+      "description": "Replace one material with another.",
+      "prompt": "Replace the specified source material with the specified target material while preserving geometry and construction details.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<from> -> <to>",
+      "notes": ""
+    },
+    {
+      "name": "enhance",
+      "category": "fidelity",
+      "description": "Improve overall detail and clarity.",
+      "prompt": "Increase perceived detail, clarity and material definition without inventing unnecessary content.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "restore",
+      "category": "fidelity",
+      "description": "Restore damaged or degraded imagery.",
+      "prompt": "Repair degradation, scratches, fading and missing small details while preserving original identity.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "deblur",
+      "category": "fidelity",
+      "description": "Reduce blur.",
+      "prompt": "Improve apparent sharpness and recover plausible edge detail without oversharpening.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "denoise",
+      "category": "fidelity",
+      "description": "Reduce noise.",
+      "prompt": "Reduce unwanted image noise while preserving fine texture.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "upscale",
+      "category": "fidelity",
+      "description": "Increase usable resolution/detail.",
+      "prompt": "Produce a higher-detail, cleaner version suitable for larger display while preserving composition.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "clean",
+      "category": "fidelity",
+      "description": "Clean distracting artifacts.",
+      "prompt": "Remove incidental dirt, dust, minor artifacts and distracting imperfections unless they are semantically important.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "preserve",
+      "category": "fidelity",
+      "description": "Maximum source fidelity.",
+      "prompt": "Prioritize maximum fidelity to the supplied image: identity, geometry, pose, camera, composition, colors and layout. Change only what other commands explicitly request.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sameangle",
+      "category": "fidelity",
+      "description": "Lock original camera angle.",
+      "prompt": "Preserve the original camera angle and perspective exactly as closely as possible.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "samebg",
+      "category": "fidelity",
+      "description": "Lock original background.",
+      "prompt": "Preserve the original background and environment.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "samecolors",
+      "category": "fidelity",
+      "description": "Lock original colors.",
+      "prompt": "Preserve the subject's original color palette except where another command explicitly changes it.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sameidentity",
+      "category": "fidelity",
+      "description": "Lock subject identity.",
+      "prompt": "Preserve the exact identity and defining visual characteristics of the original subject.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "center",
+      "category": "composition",
+      "description": "Center subject.",
+      "prompt": "Center the primary subject precisely in the composition.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "symmetry",
+      "category": "composition",
+      "description": "Use strong symmetry.",
+      "prompt": "Use a strongly symmetrical composition where appropriate.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ruleofthirds",
+      "category": "composition",
+      "description": "Use rule-of-thirds framing.",
+      "prompt": "Compose using a disciplined rule-of-thirds arrangement.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "negative-space",
+      "category": "composition",
+      "description": "Add intentional negative space.",
+      "prompt": "Create intentional negative space without shrinking the subject excessively.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "hero",
+      "category": "composition",
+      "description": "Hero composition.",
+      "prompt": "Use a strong premium hero composition with clear focal dominance.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "flatlay",
+      "category": "composition",
+      "description": "Flat-lay composition.",
+      "prompt": "Arrange the subject in a clean overhead flat-lay composition.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "shallowdof",
+      "category": "optics",
+      "description": "Shallow depth of field.",
+      "prompt": "Use shallow depth of field with natural optical falloff and subject-focused sharpness.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "deepfocus",
+      "category": "optics",
+      "description": "Deep focus.",
+      "prompt": "Keep foreground, subject and background substantially in focus.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "bokeh",
+      "category": "optics",
+      "description": "Pronounced realistic bokeh.",
+      "prompt": "Use realistic lens bokeh in out-of-focus highlights.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "motionblur",
+      "category": "optics",
+      "description": "Controlled motion blur.",
+      "prompt": "Add physically plausible motion blur consistent with movement direction.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "freeze",
+      "category": "optics",
+      "description": "Freeze motion.",
+      "prompt": "Use a fast-shutter frozen-motion look.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "longexposure",
+      "category": "optics",
+      "description": "Long-exposure look.",
+      "prompt": "Use plausible long-exposure light/motion rendering while keeping static structures sharp.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "square",
+      "category": "output",
+      "description": "Square 1:1 composition.",
+      "prompt": "Compose for a 1:1 square frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "portrait",
+      "category": "output",
+      "description": "Portrait composition.",
+      "prompt": "Compose for a portrait-oriented frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "landscape",
+      "category": "output",
+      "description": "Landscape composition.",
+      "prompt": "Compose for a landscape-oriented frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "9:16",
+      "category": "output",
+      "description": "Vertical 9:16 composition.",
+      "prompt": "Compose specifically for a 9:16 vertical frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "16:9",
+      "category": "output",
+      "description": "Widescreen 16:9 composition.",
+      "prompt": "Compose specifically for a 16:9 widescreen frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "4:5",
+      "category": "output",
+      "description": "Portrait 4:5 composition.",
+      "prompt": "Compose specifically for a 4:5 portrait frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "3:4",
+      "category": "output",
+      "description": "Portrait 3:4 composition.",
+      "prompt": "Compose specifically for a 3:4 portrait frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "1:1",
+      "category": "output",
+      "description": "Square 1:1 composition.",
+      "prompt": "Compose specifically for a 1:1 frame.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "output_ratio"
+      ],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "remove",
+      "category": "action",
+      "description": "Remove a specified object or feature.",
+      "prompt": "Remove only the specified object or feature and reconstruct the revealed background or underlying surface coherently.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<what>",
+      "notes": ""
+    },
+    {
+      "name": "add",
+      "category": "action",
+      "description": "Add a specified object or feature.",
+      "prompt": "Add the specified object or feature with correct scale, perspective, lighting, contact shadows and scene integration.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<what>",
+      "notes": ""
+    },
+    {
+      "name": "replace",
+      "category": "action",
+      "description": "Replace one thing with another.",
+      "prompt": "Replace the specified source element with the target element while preserving perspective, scale, lighting and surrounding structure.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<from> -> <to>",
+      "notes": ""
+    },
+    {
+      "name": "color",
+      "category": "action",
+      "description": "Change the subject or specified part to a color.",
+      "prompt": "Change only the specified subject/part color to the requested color while preserving material response, highlights and texture.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<target?> <color>",
+      "notes": ""
+    },
+    {
+      "name": "weather",
+      "category": "action",
+      "description": "Set weather from free-text argument.",
+      "prompt": "Set the scene weather to the user's requested condition with physically plausible atmosphere and surface response.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<description>",
+      "notes": ""
+    },
+    {
+      "name": "time",
+      "category": "action",
+      "description": "Set time of day from free-text argument.",
+      "prompt": "Set the scene to the requested time of day with coherent sun/sky/practical lighting.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<description>",
+      "notes": ""
+    },
+    {
+      "name": "season",
+      "category": "action",
+      "description": "Set season.",
+      "prompt": "Transform the environment to the requested season while preserving the subject and location identity.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<spring|summer|autumn|winter>",
+      "notes": ""
+    },
+    {
+      "name": "style",
+      "category": "action",
+      "description": "Apply a user-specified visual style.",
+      "prompt": "Apply the user-specified visual style while preserving the subject's defining characteristics unless the style inherently changes rendering medium.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<description>",
+      "notes": ""
+    },
+    {
+      "name": "bg",
+      "category": "background",
+      "description": "Set a user-specified background.",
+      "prompt": "Replace the background with the user-specified scene while preserving the subject accurately.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [
+        "background_replace"
+      ],
+      "args": "<description>",
+      "notes": ""
+    },
+    {
+      "name": "views",
+      "category": "camera",
+      "description": "Set number of 360/turnaround views.",
+      "prompt": "Use the specified number of evenly spaced views for the active multi-view command.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "<number>",
+      "notes": ""
+    },
+    {
+      "name": "ghostview",
+      "category": "transform",
+      "description": "Ghostview.",
+      "prompt": "Apply the ghostview visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "insideout",
+      "category": "transform",
+      "description": "Insideout.",
+      "prompt": "Apply the insideout visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "assembly",
+      "category": "layout",
+      "description": "Assembly.",
+      "prompt": "Apply the assembly visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "disassembly",
+      "category": "layout",
+      "description": "Disassembly.",
+      "prompt": "Apply the disassembly visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "materiallayers",
+      "category": "transform",
+      "description": "Materiallayers.",
+      "prompt": "Apply the materiallayers visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "mechanism",
+      "category": "transform",
+      "description": "Mechanism.",
+      "prompt": "Apply the mechanism visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "internals",
+      "category": "transform",
+      "description": "Internals.",
+      "prompt": "Apply the internals visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "chassis",
+      "category": "transform",
+      "description": "Chassis.",
+      "prompt": "Apply the chassis visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "skeleton",
+      "category": "transform",
+      "description": "Skeleton.",
+      "prompt": "Apply the skeleton visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "componentmap",
+      "category": "layout",
+      "description": "Componentmap.",
+      "prompt": "Apply the componentmap visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "product360",
+      "category": "camera",
+      "description": "Product360.",
+      "prompt": "Apply the product360 visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "detailviews",
+      "category": "camera",
+      "description": "Detailviews.",
+      "prompt": "Apply the detailviews visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "interiorview",
+      "category": "camera",
+      "description": "Interiorview.",
+      "prompt": "Apply the interiorview visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "underview",
+      "category": "camera",
+      "description": "Underview.",
+      "prompt": "Apply the underview visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "pov",
+      "category": "camera",
+      "description": "Pov.",
+      "prompt": "Apply the pov visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "droneview",
+      "category": "camera",
+      "description": "Droneview.",
+      "prompt": "Apply the droneview visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "birdseye",
+      "category": "camera",
+      "description": "Birdseye.",
+      "prompt": "Apply the birdseye visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wormseye",
+      "category": "camera",
+      "description": "Wormseye.",
+      "prompt": "Apply the wormseye visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "orbitshot",
+      "category": "camera",
+      "description": "Orbitshot.",
+      "prompt": "Apply the orbitshot visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "heroangle",
+      "category": "camera",
+      "description": "Heroangle.",
+      "prompt": "Apply the heroangle visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "microscopic",
+      "category": "camera",
+      "description": "Microscopic.",
+      "prompt": "Apply the microscopic visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ultramacro",
+      "category": "camera",
+      "description": "Ultramacro.",
+      "prompt": "Apply the ultramacro visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "day2night",
+      "category": "environment",
+      "description": "Day2Night.",
+      "prompt": "Apply the day2night visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "night2day",
+      "category": "environment",
+      "description": "Night2Day.",
+      "prompt": "Apply the night2day visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "winterize",
+      "category": "environment",
+      "description": "Winterize.",
+      "prompt": "Apply the winterize visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "autumnize",
+      "category": "environment",
+      "description": "Autumnize.",
+      "prompt": "Apply the autumnize visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "springify",
+      "category": "environment",
+      "description": "Springify.",
+      "prompt": "Apply the springify visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "summerize",
+      "category": "environment",
+      "description": "Summerize.",
+      "prompt": "Apply the summerize visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "desert",
+      "category": "environment",
+      "description": "Desert.",
+      "prompt": "Apply the desert visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "snowfield",
+      "category": "environment",
+      "description": "Snowfield.",
+      "prompt": "Apply the snowfield visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "forest",
+      "category": "environment",
+      "description": "Forest.",
+      "prompt": "Apply the forest visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "city",
+      "category": "environment",
+      "description": "City.",
+      "prompt": "Apply the city visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rooftop",
+      "category": "environment",
+      "description": "Rooftop.",
+      "prompt": "Apply the rooftop visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "showroom",
+      "category": "environment",
+      "description": "Showroom.",
+      "prompt": "Apply the showroom visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "garage",
+      "category": "environment",
+      "description": "Garage.",
+      "prompt": "Apply the garage visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "industrial",
+      "category": "environment",
+      "description": "Industrial.",
+      "prompt": "Apply the industrial visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "nature",
+      "category": "environment",
+      "description": "Nature.",
+      "prompt": "Apply the nature visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "underwater",
+      "category": "environment",
+      "description": "Underwater.",
+      "prompt": "Apply the underwater visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "space",
+      "category": "environment",
+      "description": "Space.",
+      "prompt": "Apply the space visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "spotlight",
+      "category": "lighting",
+      "description": "Spotlight.",
+      "prompt": "Apply the spotlight visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "splitlight",
+      "category": "lighting",
+      "description": "Splitlight.",
+      "prompt": "Apply the splitlight visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "toplight",
+      "category": "lighting",
+      "description": "Toplight.",
+      "prompt": "Apply the toplight visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sidelight",
+      "category": "lighting",
+      "description": "Sidelight.",
+      "prompt": "Apply the sidelight visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "underlight",
+      "category": "lighting",
+      "description": "Underlight.",
+      "prompt": "Apply the underlight visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "softbox",
+      "category": "lighting",
+      "description": "Softbox.",
+      "prompt": "Apply the softbox visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "threepoint",
+      "category": "lighting",
+      "description": "Threepoint.",
+      "prompt": "Apply the threepoint visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "highkey",
+      "category": "lighting",
+      "description": "Highkey.",
+      "prompt": "Apply the highkey visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "lowkey",
+      "category": "lighting",
+      "description": "Lowkey.",
+      "prompt": "Apply the lowkey visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "hdr",
+      "category": "look",
+      "description": "Hdr.",
+      "prompt": "Apply the hdr visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "commercial",
+      "category": "look",
+      "description": "Commercial.",
+      "prompt": "Apply the commercial visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "premium",
+      "category": "look",
+      "description": "Premium.",
+      "prompt": "Apply the premium visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "hyperreal",
+      "category": "look",
+      "description": "Hyperreal.",
+      "prompt": "Apply the hyperreal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rawphoto",
+      "category": "look",
+      "description": "Rawphoto.",
+      "prompt": "Apply the rawphoto visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "architectural",
+      "category": "look",
+      "description": "Architectural.",
+      "prompt": "Apply the architectural visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "automotive",
+      "category": "look",
+      "description": "Automotive.",
+      "prompt": "Apply the automotive visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "foodphoto",
+      "category": "look",
+      "description": "Foodphoto.",
+      "prompt": "Apply the foodphoto visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "fashion",
+      "category": "look",
+      "description": "Fashion.",
+      "prompt": "Apply the fashion visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ecommerce",
+      "category": "look",
+      "description": "Ecommerce.",
+      "prompt": "Apply the ecommerce visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "keyvisual",
+      "category": "look",
+      "description": "Keyvisual.",
+      "prompt": "Apply the keyvisual visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "poster",
+      "category": "look",
+      "description": "Poster.",
+      "prompt": "Apply the poster visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "triptych",
+      "category": "layout",
+      "description": "Triptych.",
+      "prompt": "Apply the triptych visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "diptych",
+      "category": "layout",
+      "description": "Diptych.",
+      "prompt": "Apply the diptych visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "grid4",
+      "category": "layout",
+      "description": "Grid4.",
+      "prompt": "Apply the grid4 visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "grid9",
+      "category": "layout",
+      "description": "Grid9.",
+      "prompt": "Apply the grid9 visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "storyboard",
+      "category": "layout",
+      "description": "Storyboard.",
+      "prompt": "Apply the storyboard visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sequence",
+      "category": "layout",
+      "description": "Sequence.",
+      "prompt": "Apply the sequence visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "timelapse",
+      "category": "layout",
+      "description": "Timelapse.",
+      "prompt": "Apply the timelapse visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "progression",
+      "category": "layout",
+      "description": "Progression.",
+      "prompt": "Apply the progression visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "materialboard",
+      "category": "layout",
+      "description": "Materialboard.",
+      "prompt": "Apply the materialboard visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "colorways",
+      "category": "layout",
+      "description": "Colorways.",
+      "prompt": "Apply the colorways visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "variants",
+      "category": "layout",
+      "description": "Variants.",
+      "prompt": "Apply the variants visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "shadowless",
+      "category": "lighting",
+      "description": "Shadowless.",
+      "prompt": "Apply the shadowless visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "reflection",
+      "category": "optics",
+      "description": "Reflection.",
+      "prompt": "Apply the reflection visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wetlook",
+      "category": "material",
+      "description": "Wetlook.",
+      "prompt": "Apply the wetlook visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "frostedglass",
+      "category": "material",
+      "description": "Frostedglass.",
+      "prompt": "Apply the frostedglass visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "brushedmetal",
+      "category": "material",
+      "description": "Brushedmetal.",
+      "prompt": "Apply the brushedmetal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "titanium",
+      "category": "material",
+      "description": "Titanium.",
+      "prompt": "Apply the titanium visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "copper",
+      "category": "material",
+      "description": "Copper.",
+      "prompt": "Apply the copper visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rose-gold",
+      "category": "material",
+      "description": "Rose Gold.",
+      "prompt": "Apply the rose gold visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "iridescent",
+      "category": "material",
+      "description": "Iridescent.",
+      "prompt": "Apply the iridescent visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "transparent",
+      "category": "material",
+      "description": "Transparent.",
+      "prompt": "Apply the transparent visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "translucent",
+      "category": "material",
+      "description": "Translucent.",
+      "prompt": "Apply the translucent visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "emissive",
+      "category": "material",
+      "description": "Emissive.",
+      "prompt": "Apply the emissive visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "damage",
+      "category": "action",
+      "description": "Damage.",
+      "prompt": "Apply the damage visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "weathered",
+      "category": "action",
+      "description": "Weathered.",
+      "prompt": "Apply the weathered visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "new",
+      "category": "action",
+      "description": "New.",
+      "prompt": "Apply the new visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "dirty",
+      "category": "action",
+      "description": "Dirty.",
+      "prompt": "Apply the dirty visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wet",
+      "category": "action",
+      "description": "Wet.",
+      "prompt": "Apply the wet visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "freezeobject",
+      "category": "action",
+      "description": "Freezeobject.",
+      "prompt": "Apply the freezeobject visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "burnished",
+      "category": "action",
+      "description": "Burnished.",
+      "prompt": "Apply the burnished visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "cleanup",
+      "category": "action",
+      "description": "Cleanup.",
+      "prompt": "Apply the cleanup visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "declutter",
+      "category": "action",
+      "description": "Declutter.",
+      "prompt": "Apply the declutter visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "roomstage",
+      "category": "action",
+      "description": "Roomstage.",
+      "prompt": "Apply the roomstage visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "emptyroom",
+      "category": "action",
+      "description": "Emptyroom.",
+      "prompt": "Apply the emptyroom visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "renovate",
+      "category": "action",
+      "description": "Renovate.",
+      "prompt": "Apply the renovate visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "landscape-design",
+      "category": "action",
+      "description": "Landscape Design.",
+      "prompt": "Apply the landscape design visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "facelift",
+      "category": "action",
+      "description": "Facelift.",
+      "prompt": "Apply the facelift visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "packshot",
+      "category": "look",
+      "description": "Packshot.",
+      "prompt": "Apply the packshot visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "floating",
+      "category": "composition",
+      "description": "Floating.",
+      "prompt": "Apply the floating visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "pedestal",
+      "category": "composition",
+      "description": "Pedestal.",
+      "prompt": "Apply the pedestal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "levitation",
+      "category": "composition",
+      "description": "Levitation.",
+      "prompt": "Apply the levitation visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "centeredhero",
+      "category": "composition",
+      "description": "Centeredhero.",
+      "prompt": "Apply the centeredhero visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "wallpaper",
+      "category": "output",
+      "description": "Wallpaper.",
+      "prompt": "Apply the wallpaper visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "thumbnail",
+      "category": "output",
+      "description": "Thumbnail.",
+      "prompt": "Apply the thumbnail visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "avatar",
+      "category": "output",
+      "description": "Avatar.",
+      "prompt": "Apply the avatar visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "banner",
+      "category": "output",
+      "description": "Banner.",
+      "prompt": "Apply the banner visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "vertical",
+      "category": "output",
+      "description": "Vertical.",
+      "prompt": "Apply the vertical visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "horizontal",
+      "category": "output",
+      "description": "Horizontal.",
+      "prompt": "Apply the horizontal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "infrared",
+      "category": "look",
+      "description": "Infrared.",
+      "prompt": "Apply the infrared visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "thermal",
+      "category": "look",
+      "description": "Thermal.",
+      "prompt": "Apply the thermal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "nightvision",
+      "category": "look",
+      "description": "Nightvision.",
+      "prompt": "Apply the nightvision visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "blueprint-photo",
+      "category": "look",
+      "description": "Blueprint Photo.",
+      "prompt": "Apply the blueprint photo visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "silhouette",
+      "category": "look",
+      "description": "Silhouette.",
+      "prompt": "Apply the silhouette visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "duotone",
+      "category": "look",
+      "description": "Duotone.",
+      "prompt": "Apply the duotone visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "monochrome",
+      "category": "look",
+      "description": "Monochrome.",
+      "prompt": "Apply the monochrome visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "pastel",
+      "category": "look",
+      "description": "Pastel.",
+      "prompt": "Apply the pastel visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "neon",
+      "category": "look",
+      "description": "Neon.",
+      "prompt": "Apply the neon visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "glow",
+      "category": "look",
+      "description": "Glow.",
+      "prompt": "Apply the glow visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "prism",
+      "category": "look",
+      "description": "Prism.",
+      "prompt": "Apply the prism visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "mirror",
+      "category": "look",
+      "description": "Mirror.",
+      "prompt": "Apply the mirror visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "acrylic",
+      "category": "material",
+      "description": "Acrylic.",
+      "prompt": "Apply the acrylic visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rubber",
+      "category": "material",
+      "description": "Rubber.",
+      "prompt": "Apply the rubber visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "fabric",
+      "category": "material",
+      "description": "Fabric.",
+      "prompt": "Apply the fabric visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "stone",
+      "category": "material",
+      "description": "Stone.",
+      "prompt": "Apply the stone visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "concrete",
+      "category": "material",
+      "description": "Concrete.",
+      "prompt": "Apply the concrete visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "paper",
+      "category": "material",
+      "description": "Paper.",
+      "prompt": "Apply the paper visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "porcelain",
+      "category": "material",
+      "description": "Porcelain.",
+      "prompt": "Apply the porcelain visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "crystal",
+      "category": "material",
+      "description": "Crystal.",
+      "prompt": "Apply the crystal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "gemstone",
+      "category": "material",
+      "description": "Gemstone.",
+      "prompt": "Apply the gemstone visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "smoke",
+      "category": "look",
+      "description": "Smoke.",
+      "prompt": "Apply the smoke visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "fire",
+      "category": "look",
+      "description": "Fire.",
+      "prompt": "Apply the fire visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "ice",
+      "category": "look",
+      "description": "Ice.",
+      "prompt": "Apply the ice visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "liquid-metal",
+      "category": "material",
+      "description": "Liquid Metal.",
+      "prompt": "Apply the liquid metal visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "rust",
+      "category": "material",
+      "description": "Rust.",
+      "prompt": "Apply the rust visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "patina",
+      "category": "material",
+      "description": "Patina.",
+      "prompt": "Apply the patina visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "dust",
+      "category": "look",
+      "description": "Dust.",
+      "prompt": "Apply the dust visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "particles",
+      "category": "look",
+      "description": "Particles.",
+      "prompt": "Apply the particles visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sparks",
+      "category": "look",
+      "description": "Sparks.",
+      "prompt": "Apply the sparks visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "splash",
+      "category": "look",
+      "description": "Splash.",
+      "prompt": "Apply the splash visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "freeze-frame",
+      "category": "optics",
+      "description": "Freeze Frame.",
+      "prompt": "Apply the freeze frame visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "speed-ramp",
+      "category": "optics",
+      "description": "Speed Ramp.",
+      "prompt": "Apply the speed ramp visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "dollyzoom",
+      "category": "optics",
+      "description": "Dollyzoom.",
+      "prompt": "Apply the dollyzoom visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "panorama",
+      "category": "layout",
+      "description": "Panorama.",
+      "prompt": "Apply the panorama visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "master",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "aerial-map",
+      "category": "camera",
+      "description": "Aerial Map.",
+      "prompt": "Apply the aerial map visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "floorplan",
+      "category": "transform",
+      "description": "Floorplan.",
+      "prompt": "Apply the floorplan visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "elevation",
+      "category": "transform",
+      "description": "Elevation.",
+      "prompt": "Apply the elevation visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "render-to-photo",
+      "category": "look",
+      "description": "Render To Photo.",
+      "prompt": "Apply the render to photo visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "photo-to-render",
+      "category": "look",
+      "description": "Photo To Render.",
+      "prompt": "Apply the photo to render visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "isolate-subject",
+      "category": "action",
+      "description": "Isolate Subject.",
+      "prompt": "Apply the isolate subject visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "swap-sky",
+      "category": "environment",
+      "description": "Swap Sky.",
+      "prompt": "Apply the swap sky visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "remove-reflections",
+      "category": "optics",
+      "description": "Remove Reflections.",
+      "prompt": "Apply the remove reflections visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "add-reflections",
+      "category": "optics",
+      "description": "Add Reflections.",
+      "prompt": "Apply the add reflections visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "straighten",
+      "category": "action",
+      "description": "Straighten.",
+      "prompt": "Apply the straighten visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "perspective-correct",
+      "category": "action",
+      "description": "Perspective Correct.",
+      "prompt": "Apply the perspective correct visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "lens-correct",
+      "category": "optics",
+      "description": "Lens Correct.",
+      "prompt": "Apply the lens correct visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "crop-safe",
+      "category": "output",
+      "description": "Crop Safe.",
+      "prompt": "Apply the crop safe visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "social-cover",
+      "category": "output",
+      "description": "Social Cover.",
+      "prompt": "Apply the social cover visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "app-icon",
+      "category": "output",
+      "description": "App Icon.",
+      "prompt": "Apply the app icon visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "sticker",
+      "category": "output",
+      "description": "Sticker.",
+      "prompt": "Apply the sticker visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "mockup",
+      "category": "output",
+      "description": "Mockup.",
+      "prompt": "Apply the mockup visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "packaging",
+      "category": "output",
+      "description": "Packaging.",
+      "prompt": "Apply the packaging visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "hero-banner",
+      "category": "output",
+      "description": "Hero Banner.",
+      "prompt": "Apply the hero banner visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "seamless-texture",
+      "category": "output",
+      "description": "Seamless Texture.",
+      "prompt": "Apply the seamless texture visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "tileable",
+      "category": "output",
+      "description": "Tileable.",
+      "prompt": "Apply the tileable visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "depthmap",
+      "category": "transform",
+      "description": "Depthmap.",
+      "prompt": "Apply the depthmap visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "normalmap",
+      "category": "transform",
+      "description": "Normalmap.",
+      "prompt": "Apply the normalmap visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "mask",
+      "category": "transform",
+      "description": "Mask.",
+      "prompt": "Apply the mask visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "subject-mask",
+      "category": "transform",
+      "description": "Subject Mask.",
+      "prompt": "Apply the subject mask visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "background-mask",
+      "category": "transform",
+      "description": "Background Mask.",
+      "prompt": "Apply the background mask visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "relight-warm",
+      "category": "lighting",
+      "description": "Relight Warm.",
+      "prompt": "Apply the relight warm visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "relight-cool",
+      "category": "lighting",
+      "description": "Relight Cool.",
+      "prompt": "Apply the relight cool visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "studio-white",
+      "category": "lighting",
+      "description": "Studio White.",
+      "prompt": "Apply the studio white visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    },
+    {
+      "name": "studio-dark",
+      "category": "lighting",
+      "description": "Studio Dark.",
+      "prompt": "Apply the studio dark visual treatment professionally and coherently while preserving the supplied subject identity and unrelated source details unless another command explicitly changes them.",
+      "aliases": [],
+      "mode": "modifier",
+      "conflicts": [],
+      "args": "",
+      "notes": ""
+    }
+  ],
+  "version": "2.0"
+}
