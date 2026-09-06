@@ -1,12 +1,22 @@
 # Visual Commands
 
-**A compact, composable visual command language for AI image generation and editing in Codex.**
+**322 composable visual commands for AI image generation and editing across modern AI coding agents.**
+
+Visual Commands is an open Agent Skill that teaches AI coding agents—including **OpenAI Codex**, **Claude Code**, **Google Antigravity**, and compatible Agent Skills environments—how to interpret and execute a compact, composable visual command language.
 
 Instead of writing repetitive paragraphs of prompt engineering, control image transformations with short, composable slash commands:
 
 ```text
 /xray
+/cinematic
+/night
+/360view
+/explodedview
+/remove
+/productshot
 ```
+
+Compose commands together:
 
 ```text
 /xray /cinematic /night
@@ -20,17 +30,48 @@ Instead of writing repetitive paragraphs of prompt engineering, control image tr
 /explodedview /technical /whitebg /16:9
 ```
 
-Visual Commands translates these compact directives into deterministic, art-directed image generation and editing instructions while preserving source fidelity by default.
+Visual Commands translates these compact directives into deterministic, art-directed image generation and editing instructions for the image tools available in your host environment while preserving source fidelity by default.
+
+---
+
+## Supported Environments
+
+Visual Commands adheres to the open **Agent Skills** specification (`SKILL.md`), allowing the exact same command registry and composition rules to be used across multiple agent platforms:
+
+| Environment | Skill Discovery | Image Execution | Recommended Location |
+| --- | :---: | :---: | --- |
+| **OpenAI Codex** | Supported | Depends on host image tools | `$skill-installer` or `~/.codex/skills/` |
+| **Claude Code** | Supported | Depends on host image tools | `~/.claude/skills/` or `.claude/skills/` |
+| **Google Antigravity** | Supported | Depends on host image tools | `~/.gemini/config/skills/` or workspace `skills/` |
+| **Compatible Agent Environments** | Supported via `SKILL.md` | Host-dependent | Standard Agent Skills directory |
+
+> ℹ️ **Note on Execution**: Visual Commands provides the visual language parsing, prompt normalization, and composition logic. Actual image generation and editing is performed by the image-generation and editing tools provided by your host environment.
+
+---
+
+## Architecture
+
+Visual Commands cleanly separates visual intent specification from agent execution:
+
+```mermaid
+flowchart TD
+    A[User Input:\nImage + Slash Commands] --> B[Visual Commands Skill:\nSKILL.md + Parser Engine]
+    B --> C[Unified Visual Directive:\nResolved Conflicts & Preserved Fidelity]
+    C --> D[Host AI Agent:\nCodex / Claude Code / Antigravity]
+    D --> E[Host Image Tooling:\nGenerate / Edit Output]
+    E --> F[Finished Image Result]
+```
+
+1. **Visual Command Layer**: The user provides compact slash commands (`/xray /cinematic /night`).
+2. **Agent Skill Normalization**: The skill normalizes aliases, extracts parameters, and resolves conflicts using canonical rules in `commands.json`.
+3. **Host Agent Execution**: The host coding agent (Codex, Claude Code, Antigravity) receives a precise, unified visual prompt.
+4. **Tool Generation**: The host environment's image tools produce or edit the visual output.
 
 ---
 
 ## Quick Start
 
-1. **Install the skill** in Codex:
-
-   ```text
-   $skill-installer install https://github.com/natan-webs/visual-commands/tree/main/skills/visual-commands
-   ```
+1. **Install the skill** in your preferred agent environment (see [Installation](#installation)).
 
 2. **Attach or reference an image** (for edits) or describe a subject (for new generation).
 
@@ -40,7 +81,7 @@ Visual Commands translates these compact directives into deterministic, art-dire
    /xray /cinematic /night
    ```
 
-4. **Codex interprets the commands** through the installed skill and executes the image task using the host environment's image tools.
+4. **Your agent interprets the commands** through Visual Commands and executes the image task using the available host image tools.
 
 ---
 
@@ -201,15 +242,7 @@ Visual Commands includes **322 verified commands** across 13 functional categori
 
 ## How It Works
 
-Visual Commands is an **Agent Skill** that provides Codex with a deterministic, compact interpretation layer for visual instructions.
-
-```mermaid
-flowchart LR
-    A[User Input:\nImage + Slash Commands] --> B[Skill Parser\n& Normalizer]
-    B --> C[Composition Engine\nResolve Conflicts & Masters]
-    C --> D[Unified Generation Plan\nPreserve Fidelity & Modifiers]
-    D --> E[Host Image Tools\nGenerate / Edit Output]
-```
+Visual Commands is an **Agent Skill** that provides host agents with a deterministic, compact interpretation layer for visual instructions.
 
 1. **Source Preservation by Default**: Visual Commands maintains subject identity, proportions, geometry, camera angle, and background unless explicitly instructed to modify them.
 2. **Deterministic Conflict Resolution**: Compatible modifiers are merged; mutually exclusive values resolve cleanly with last-command-wins.
@@ -240,7 +273,9 @@ Several commands accept natural-language arguments that extend until the next sl
 
 ## Installation
 
-### Method 1: Codex Skill Installer (Recommended)
+Visual Commands is packaged as a standard Agent Skill in [`skills/visual-commands`](skills/visual-commands). Install it into your environment using the appropriate method:
+
+### OpenAI Codex
 
 In your Codex interface, run:
 
@@ -248,16 +283,37 @@ In your Codex interface, run:
 $skill-installer install https://github.com/natan-webs/visual-commands/tree/main/skills/visual-commands
 ```
 
-### Method 2: Manual Installation
-
-Clone or copy the [`skills/visual-commands`](skills/visual-commands) directory into your Codex skills configuration directory:
+Or clone manually into your Codex skills directory:
 
 ```bash
 git clone https://github.com/natan-webs/visual-commands.git
+mkdir -p ~/.codex/skills
 cp -r visual-commands/skills/visual-commands ~/.codex/skills/
 ```
 
-Restart Codex if required by your environment to load the newly installed skill.
+### Claude Code
+
+Clone or copy `skills/visual-commands` into your personal Claude Code skills directory (`~/.claude/skills/`) or project-level skills directory (`.claude/skills/`):
+
+```bash
+git clone https://github.com/natan-webs/visual-commands.git
+mkdir -p ~/.claude/skills
+cp -r visual-commands/skills/visual-commands ~/.claude/skills/
+```
+
+### Google Antigravity
+
+Clone or copy `skills/visual-commands` into your Antigravity global skills directory (`~/.gemini/config/skills/`) or workspace `skills/` directory:
+
+```bash
+git clone https://github.com/natan-webs/visual-commands.git
+mkdir -p ~/.gemini/config/skills
+cp -r visual-commands/skills/visual-commands ~/.gemini/config/skills/
+```
+
+### Other Agent Environments
+
+For any tool or agent supporting the **Agent Skills** format (`SKILL.md`), clone this repository and configure your agent to load [`skills/visual-commands/SKILL.md`](skills/visual-commands/SKILL.md).
 
 ---
 
@@ -275,7 +331,7 @@ visual-commands/
         ├── SKILL.md                         # Core agent skill instructions
         ├── LICENSE.txt                      # Skill license
         ├── agents/
-        │   └── openai.yaml                  # Agent interface metadata
+        │   └── openai.yaml                  # OpenAI/Codex agent metadata
         ├── references/
         │   ├── commands.json                # Canonical 322-command registry
         │   ├── COMMANDS.md                  # Human-readable command catalog
@@ -289,8 +345,8 @@ visual-commands/
 
 ## Requirements & Compatibility
 
-- **Host Environment**: Visual Commands is an Agent Skill designed for Codex. Actual execution depends on the image-generation and image-editing tools available in the host environment. Other agent environments may be able to use the skill format, but they are not guaranteed or officially validated by this repository.
-- **Image Tooling**: Image generation and editing behavior depends on the image tools available in the host environment.
+- **Agent Support**: Visual Commands is an Agent Skill format compatible with OpenAI Codex, Claude Code, Google Antigravity, and environments that support standard `SKILL.md` skill discovery.
+- **Image Tooling**: Visual generation and editing behavior depends on the image tools available in the host environment.
 - **Python (Optional)**: Python 3.8+ is only required if running the local compiler parser (`compile_commands.py`) or test suite (`test_compiler.py`).
 
 ---

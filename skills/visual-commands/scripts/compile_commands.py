@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Compile Visual Commands slash syntax into a normalized plan.
-This helper does not generate images. Codex may use it for deterministic parsing/debugging.
+This helper does not generate images. Host agents may use it for deterministic parsing/debugging.
 """
 from __future__ import annotations
 import argparse
