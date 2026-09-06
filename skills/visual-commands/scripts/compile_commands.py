@@ -3,15 +3,32 @@
 This helper does not generate images. Codex may use it for deterministic parsing/debugging.
 """
 from __future__ import annotations
-import argparse, json, re
+import argparse
+import json
+import re
 from pathlib import Path
 
 REGISTRY = Path(__file__).resolve().parents[1] / "references" / "commands.json"
 
-def load_registry():
+def load_registry() -> dict:
     return json.loads(REGISTRY.read_text(encoding="utf-8"))
 
-def parse(text: str):
+def has_conflict(cmd_a: dict, cmd_b: dict) -> bool:
+    """Return True if cmd_a and cmd_b are mutually exclusive according to registry conflict metadata."""
+    conf_a = set(cmd_a.get("conflicts", []))
+    conf_b = set(cmd_b.get("conflicts", []))
+    
+    # Explicit conflict by command name
+    if cmd_a["name"] in conf_b or cmd_b["name"] in conf_a:
+        return True
+    
+    # Shared conflict group (e.g. camera_single, output_ratio, background_replace)
+    if conf_a and conf_b and bool(conf_a & conf_b):
+        return True
+        
+    return False
+
+def parse(text: str) -> dict:
     reg = load_registry()
     by_name = {c["name"]: c for c in reg["commands"]}
     alias = {}
@@ -36,31 +53,26 @@ def parse(text: str):
             "mode": cmd.get("mode") if cmd else None,
             "parameter": param,
             "description": cmd.get("description") if cmd else None,
+            "conflicts": cmd.get("conflicts", []) if cmd else [],
+            "args": cmd.get("args", "") if cmd else "",
         })
 
-    # Resolve common single-value categories: last explicit command wins.
-    last_wins_categories = {"output", "background"}
-    resolved = []
+    # Resolve mutually exclusive commands based on registry conflict definitions:
+    # Later explicit command wins by shadowing earlier conflicting commands.
     shadowed = set()
-
     for idx, item in enumerate(items):
         if not item["known"]:
             continue
-        if item["category"] in last_wins_categories:
-            for j in range(idx):
-                if items[j]["known"] and items[j]["category"] == item["category"]:
-                    # background can be additive only when previous isn't a replace/isolate command; conservative last-win
-                    shadowed.add(j)
-        # Single camera views conflict; masters do not get shadowed by simple modifiers.
-        if item["category"] == "camera" and item["mode"] != "master":
-            for j in range(idx):
-                if items[j]["known"] and items[j]["category"] == "camera" and items[j]["mode"] != "master":
+        for j in range(idx):
+            if items[j]["known"] and j not in shadowed:
+                if has_conflict(items[j], item):
                     shadowed.add(j)
 
+    resolved = []
     for idx, item in enumerate(items):
-        item = dict(item)
-        item["active"] = idx not in shadowed
-        resolved.append(item)
+        item_dict = dict(item)
+        item_dict["active"] = idx not in shadowed
+        resolved.append(item_dict)
 
     return {
         "input": text,

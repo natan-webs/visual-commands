@@ -4,14 +4,16 @@ Contributions are welcome! Whether adding new visual commands, refining composit
 
 ## Command Guidelines
 
-New commands must be added to [`skills/visual-commands/references/commands.json`](skills/visual-commands/references/commands.json) with:
+New commands must be added to [`skills/visual-commands/references/commands.json`](skills/visual-commands/references/commands.json) with the canonical registry schema:
 - `name`: Lowercase canonical command identifier (e.g. `xray`, `isometric`, `16:9`).
+- `category`: Functional category (`action`, `background`, `camera`, `composition`, `environment`, `fidelity`, `layout`, `lighting`, `look`, `material`, `optics`, `output`, `transform`).
 - `description`: Clear, concise explanation of the visual effect.
 - `prompt`: Execution directive used when compiling the image-generation plan.
-- `category`: Functional category (`action`, `background`, `camera`, `composition`, `environment`, `fidelity`, `layout`, `lighting`, `look`, `material`, `optics`, `output`, `transform`).
+- `aliases`: Optional list of common alias shortcuts without conflicts (default `[]`).
 - `mode`: `modifier` (default) or `master` (for structural/multi-view layouts).
-- `aliases`: Optional list of common alias shortcuts without conflicts.
-- `parameters`: Optional parameter specification if the command takes free-text arguments.
+- `conflicts`: Optional list of conflicting command names or conflict groups (e.g. `camera_single`, `output_ratio`, `background_replace`; default `[]`).
+- `args`: Optional parameter specification string for commands that accept arguments (default `""`).
+- `notes`: Optional usage notes or context (default `""`).
 
 ### Design Principles
 

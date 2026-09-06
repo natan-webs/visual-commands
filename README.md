@@ -289,8 +289,8 @@ visual-commands/
 
 ## Requirements & Compatibility
 
-- **Host Environment**: Visual Commands is an Agent Skill designed for Codex and compatible AI agent environments.
-- **Image Tooling**: Visual generation and editing capabilities rely on the image tools available in the host environment (e.g., DALL-E, generative image tools, or custom editing tools).
+- **Host Environment**: Visual Commands is an Agent Skill designed for Codex. Actual execution depends on the image-generation and image-editing tools available in the host environment. Other agent environments may be able to use the skill format, but they are not guaranteed or officially validated by this repository.
+- **Image Tooling**: Image generation and editing behavior depends on the image tools available in the host environment.
 - **Python (Optional)**: Python 3.8+ is only required if running the local compiler parser (`compile_commands.py`) or test suite (`test_compiler.py`).
 
 ---
