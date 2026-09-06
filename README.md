@@ -64,7 +64,7 @@ define the result structure. Other commands modify that structure.
 Ask Codex's skill installer to install the skill directory from this repository:
 
 ```text
-$skill-installer install https://github.com/YOUR-USER/visual-commands/tree/main/skills/visual-commands
+$skill-installer install https://github.com/natan-webs/visual-commands/tree/main/skills/visual-commands
 ```
 
 Then restart Codex if your current Codex version requires a restart for newly installed skills.
