@@ -42,7 +42,7 @@ Visual Commands adheres to the open **Agent Skills** specification (`SKILL.md`),
 | --- | :---: | :---: | --- |
 | **OpenAI Codex** | Supported | Depends on host image tools | `$skill-installer` or `~/.codex/skills/` |
 | **Claude Code** | Supported | Depends on host image tools | `~/.claude/skills/` or `.claude/skills/` |
-| **Google Antigravity** | Supported | Depends on host image tools | `~/.gemini/config/skills/` or workspace `skills/` |
+| **Google Antigravity** | Supported | Depends on host image tools | `~/.gemini/config/skills/` or `.agents/skills/` |
 | **Compatible Agent Environments** | Supported via `SKILL.md` | Host-dependent | Standard Agent Skills directory |
 
 > ℹ️ **Note on Execution**: Visual Commands provides the visual language parsing, prompt normalization, and composition logic. Actual image generation and editing is performed by the image-generation and editing tools provided by your host environment.
@@ -303,12 +303,22 @@ cp -r visual-commands/skills/visual-commands ~/.claude/skills/
 
 ### Google Antigravity
 
-Clone or copy `skills/visual-commands` into your Antigravity global skills directory (`~/.gemini/config/skills/`) or workspace `skills/` directory:
+Clone or copy `skills/visual-commands` into your Antigravity global skills directory (`~/.gemini/config/skills/`) or workspace skills directory (`.agents/skills/`):
+
+**Global installation:**
 
 ```bash
 git clone https://github.com/natan-webs/visual-commands.git
 mkdir -p ~/.gemini/config/skills
 cp -r visual-commands/skills/visual-commands ~/.gemini/config/skills/
+```
+
+**Workspace-level installation:**
+
+```bash
+git clone https://github.com/natan-webs/visual-commands.git
+mkdir -p .agents/skills
+cp -r visual-commands/skills/visual-commands .agents/skills/
 ```
 
 ### Other Agent Environments
